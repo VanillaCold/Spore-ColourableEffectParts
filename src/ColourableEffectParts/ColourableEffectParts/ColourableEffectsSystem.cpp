@@ -22,6 +22,15 @@ void ColourableEffectsSystem::UpdateEffects()
 		{
 			return;
 		}
+
+
+		//Editor.mpEditorModel->mColors;
+		vector<Vector3> skinColours;
+
+		skinColours.push_back((Math::Vector3&)Editor.mpEditorModel->mColors[0]);
+		skinColours.push_back((Math::Vector3&)Editor.mpEditorModel->mColors[1]);
+		skinColours.push_back((Math::Vector3&)Editor.mpEditorModel->mColors[2]);
+
 		for (auto rigblock : Editor.GetEditorModel()->mRigblocks)
 		{
 			auto model = (Graphics::cMWModelInternal*)rigblock->mpModel.get();
@@ -30,8 +39,7 @@ void ColourableEffectsSystem::UpdateEffects()
 			App::Property::GetArrayKey(model->mpPropList.get(), 0x02A907B5, modelEffectsList);
 			for (int i = 0; i < modelEffectsList.size(); i++)
 			{
-				Vector3 thingy = Vector3(0, 0, 255);
-				model->mEffects[i].mpEffect->SetVectorParams(Swarm::FloatParams::kParamColor, &thingy, 1);
+				SetEffectColour(model->mEffects[i].mpEffect, skinColours);
 			}
 		}
 
@@ -47,14 +55,6 @@ void ColourableEffectsSystem::UpdateEffects()
 					App::Property::GetArrayKey(inModel->mpPropList.get(), 0x02A907B5, modelEffectsList);
 					for (int i = 0; i < modelEffectsList.size(); i++)
 					{
-						//Editor.mpEditorModel->mColors;
-						Vector3 thingy = Vector3(0, 0, 255);
-						Vector3 skinColours[3];
-
-						skinColours[0] = (Math::Vector3&)Editor.mpEditorModel->mColors[0];
-						skinColours[1] = (Math::Vector3&)Editor.mpEditorModel->mColors[1];
-						skinColours[2] = (Math::Vector3&)Editor.mpEditorModel->mColors[2];
-
 						SetEffectColour(inModel->mEffects[i].mpEffect, skinColours);
 					}
 				}
@@ -74,7 +74,7 @@ void ColourableEffectsSystem::UpdateEffects()
 				auto newOffset = offset - origin;
 				if (newOffset.Length() < radius)
 				{
-					Vector3 skinColours[3];
+					vector<Vector3> skinColours;
 					ResourceObjectPtr res;
 					ResourceKey crtKey = crt->mSpeciesKey;
 					if (ResourceManager.GetResource(crtKey, &res))
@@ -82,9 +82,9 @@ void ColourableEffectsSystem::UpdateEffects()
 						cEditorResourcePtr creatureResource = object_cast<Editors::cEditorResource>(res);
 						if (creatureResource != nullptr)
 						{
-							skinColours[0] = (Math::Vector3&)creatureResource->mProperties.mSkinColor1;
-							skinColours[1] = (Math::Vector3&)creatureResource->mProperties.mSkinColor2;
-							skinColours[2] = (Math::Vector3&)creatureResource->mProperties.mSkinColor3;
+							skinColours.push_back((Math::Vector3&)creatureResource->mProperties.mSkinColor1);
+							skinColours.push_back((Math::Vector3&)creatureResource->mProperties.mSkinColor2);
+							skinColours.push_back((Math::Vector3&)creatureResource->mProperties.mSkinColor3);
 						}
 					}
 					SetEffectColour(effect, skinColours);
@@ -100,16 +100,18 @@ void ColourableEffectsSystem::UpdateSingleCreature(Simulator::cCreatureBase* pCr
 	
 }
 
-void ColourableEffectsSystem::SetEffectColour(IVisualEffectPtr effect, const Vector3 colours[3])
+void ColourableEffectsSystem::SetEffectColour(IVisualEffectPtr effect, const vector<Vector3> colours)
 {
 	PropertyListPtr propList;
-	if (PropManager.GetPropertyList(effect->GetEffectID().instanceID, id("ColourableEffectsData"), propList))
+	auto visEffect = ((Swarm::cVisualEffect*)effect.get());
+	SporeDebugPrint("0x%x", visEffect->mInstanceID);
+	if (PropManager.GetPropertyList(visEffect->mInstanceID, id("ColourableEffectsData"), propList))
 	{
 		uint32_t channel;
 		App::Property::GetUInt32(propList.get(), id("colourableEffectChannel"), channel);
 		if (channel <= 2)
 		{
-			effect->SetVectorParams(Swarm::FloatParams::kParamColor, &(Math::Vector3&)Editor.mpEditorModel->mColors[channel], 1);
+			effect->SetVectorParams(Swarm::FloatParams::kParamColor, &colours[channel], 1);
 		}
 	}
 	return;

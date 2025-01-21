@@ -18,7 +18,7 @@ public:
 
 	void UpdateEffects();
 	void UpdateSingleCreature(Simulator::cCreatureBase* pCreature);
-	void SetEffectColour(IVisualEffectPtr effect, const Vector3 colours[3]);
+	void SetEffectColour(IVisualEffectPtr effect, const vector<Vector3> colours);
 
 	static ColourableEffectsSystem* Get();
 
