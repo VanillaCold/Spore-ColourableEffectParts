@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<mod description="Makes it possible to add effects to a creature that can be recoloured." displayName="Spore-ColourableEffectParts" dllsBuild="$SPOREMOD_DLLS_BUILD" hasCustomInstaller="false" installerSystemVersion="1.0.1.2" isExperimental="$SPOREMOD_EXPERIMENTAL" unique="Spore-ColourableEffectParts">
+<mod description="Makes it possible to add effects to a creature that can be recoloured." displayName="Spore-ColourableEffectParts" dllsBuild="$SPOREMOD_DLLS_BUILD" hasCustomInstaller="false" installerSystemVersion="1.0.1.2" isExperimental="true" unique="Spore-ColourableEffectParts" websiteUrl="https://vanillacold.github.io/">
   <prerequisite game="GalacticAdventures">ColourableEffectParts.package</prerequisite>
   <prerequisite>ColourableEffectParts.dll</prerequisite>
 </mod>
