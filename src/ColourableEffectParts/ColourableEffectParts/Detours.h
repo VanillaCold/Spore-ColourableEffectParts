@@ -11,3 +11,6 @@ static_detour(CreatureCreateDetour, Simulator::cCreatureAnimal* (const Vector3&,
 member_detour(CommitEditHistoryDetour, Editors::cEditor, void(bool, Editors::EditorStateEditHistory*)) {};
 
 member_detour(UndoDetour, Editors::cEditor, void(bool, bool)) {};
+
+//Editors::cEditor::OnEnter
+member_detour(SetEditorModeDetour, Editors::cEditor, void(Editors::Mode mode, bool unk)) {};

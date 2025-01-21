@@ -28,6 +28,7 @@ void AttachDetours()
 	CreatureCreateDetour::attach(GetAddress(Simulator::cCreatureAnimal, Create));
 	CommitEditHistoryDetour::attach(GetAddress(Editors::cEditor, CommitEditHistory));
 	UndoDetour::attach(GetAddress(Editors::cEditor, Undo));
+	SetEditorModeDetour::attach(GetAddress(Editors::cEditor, SetActiveMode));
 	// Call the attach() method on any detours you want to add
 	// For example: cViewer_SetRenderType_detour::attach(GetAddress(cViewer, SetRenderType));
 }

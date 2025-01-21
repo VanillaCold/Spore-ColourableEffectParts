@@ -20,3 +20,9 @@ void UndoDetour::DETOUR(bool arg1, bool arg2)
 	original_function(this, arg1, arg2);
 	ColourableEffectsSystem::Get()->mResetClock = 3;
 }
+
+void SetEditorModeDetour::DETOUR(Editors::Mode mode, bool unk)
+{
+	original_function(this, mode, unk);
+	ColourableEffectsSystem::Get()->mResetClock = 3;
+}
