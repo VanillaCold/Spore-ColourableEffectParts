@@ -3,6 +3,8 @@
 #include "UpdateAllEffectsCheat.h"
 #include "ColourableEffectsSystem.h"
 
+#include "Detours.h"
+
 void Initialize()
 {
 	// This method is executed when the game starts, before the user interface is shown
@@ -23,6 +25,8 @@ void Dispose()
 
 void AttachDetours()
 {
+	CreatureCreateDetour::attach(GetAddress(Simulator::cCreatureAnimal, Create));
+	CommitEditHistoryDetour::attach(GetAddress(Editors::cEditor, CommitEditHistory));
 	// Call the attach() method on any detours you want to add
 	// For example: cViewer_SetRenderType_detour::attach(GetAddress(cViewer, SetRenderType));
 }

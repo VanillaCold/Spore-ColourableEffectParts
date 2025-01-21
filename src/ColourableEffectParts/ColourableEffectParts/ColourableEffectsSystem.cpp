@@ -7,6 +7,7 @@
 ColourableEffectsSystem::ColourableEffectsSystem()
 {
 	sInstance = this;
+	App::AddUpdateFunction(this);
 }
 
 
@@ -115,6 +116,18 @@ void ColourableEffectsSystem::SetEffectColour(IVisualEffectPtr effect, const vec
 		}
 	}
 	return;
+}
+
+void ColourableEffectsSystem::Update()
+{
+	if (mResetClock > 0)
+	{
+		mResetClock--;
+		if (mResetClock == 0)
+		{
+			UpdateEffects();
+		}
+	}
 }
 
 ColourableEffectsSystem* ColourableEffectsSystem::Get()

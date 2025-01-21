@@ -42,6 +42,9 @@
     <ClCompile Include="UpdateAllEffectsCheat.cpp">
       <Filter>ColourableEffectParts</Filter>
     </ClCompile>
+    <ClCompile Include="CreatureDetours.cpp">
+      <Filter>ColourableEffectParts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

@@ -4,8 +4,9 @@
 
 #define ColourableEffectsSystemPtr intrusive_ptr<ColourableEffectsSystem>
 
-class ColourableEffectsSystem 
-	: public Object
+class ColourableEffectsSystem
+	: public App::IUpdatable
+	, public Object
 	, public DefaultRefCounted
 {
 private:
@@ -20,7 +21,12 @@ public:
 	void UpdateSingleCreature(Simulator::cCreatureBase* pCreature);
 	void SetEffectColour(IVisualEffectPtr effect, const vector<Vector3> colours);
 
+	void Update() override;
+
 	static ColourableEffectsSystem* Get();
+	
+	uint32_t mResetClock;
+	//vector<Simulator::cGameData*> creaturesToUpdate;
 
 	int AddRef() override;
 	int Release() override;
