@@ -1,1 +1,4 @@
+# Any property file in this folder corresponds to a visual effect InstanceID.
+# The colourableEffectChannel (UK spelling; I am not American) property is used to determine the channel.
+# A value of 0 is Base. 1 corresponds to Coat. Finally, 2 will recolour the effect to the Detail channel.
 uint32 colourableEffectChannel 1
